@@ -7,7 +7,7 @@ def regex_generator_lt(price, term_string="precio-desde") -> str:
     search = str(price)
     search_len = len(search)
     filters = []
-    for i in range(search_len - 1, 0, -1):
+    for i in range(search_len - 1, -1, -1):
         filters.append("\d{" + str(i) + "}")
         s = search[:i]
         q = int(search[i])
@@ -18,7 +18,7 @@ def regex_generator_lt(price, term_string="precio-desde") -> str:
         else:
             mx = f"[0-{q-1}]"
         flt = s + mx
-        remaining_digits = search_len - len(s) - i
+        remaining_digits = search_len - len(s) - 1
         if remaining_digits > 0:
             flt += "\d{" + str(remaining_digits) + "}"
         filters.append(flt)
@@ -86,7 +86,6 @@ def get_filter(currency: str, min_price_f, min_price_t, max_price_f, max_price_t
 
 
 if __name__ == '__main__':
-    print(get_filter("MXN", 200_000, 250_000, 250_000, 300_000))
-
-
-"desde=5000&hasta=1000"
+    # print(get_filter("MXN", 200_000, 250_000, 250_000, 300_000))
+    print(regex_generator_lt(200_000))
+    print(regex_generator_lt(199_999))
